@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>海图古今 · 从郑和宝船到双十一货机</title>
+  <meta name="description" content="AIGC 驱动的国风漫画交互叙事：从郑和下西洋到双十一航空物流，看一套调度系统如何在拥挤中运转。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%224%22 fill=%22%23B2342A%22/%3E%3Ctext x=%2216%22 y=%2223%22 font-size=%2219%22 text-anchor=%22middle%22 fill=%22%23F3ECDD%22%3E航%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="icon-defs"></svg>
+
+  <!-- 开卷 -->
+  <div id="cover" class="cover">
+    <div class="cover-scroll">
+      <div class="rod rod-top"></div>
+      <div class="cover-paper">
+        <h1 class="v-title cover-title">海图古今</h1>
+        <p class="cover-sub">从郑和宝船 到 双十一货机</p>
+        <p class="cover-q">一天数亿件包裹涌入物流网，<br />为什么系统没有瘫痪？<br />六百年前，两万余人的船队，<br />又是如何调度的？</p>
+        <button id="btn-open" class="btn btn-seal">展 卷</button>
+      </div>
+      <div class="rod rod-bottom"></div>
+    </div>
+  </div>
+
+  <div id="app" class="app" hidden>
+    <nav class="rail" aria-label="章节">
+      <div class="rail-brand v-title">海图古今</div>
+      <ol class="rail-list">
+        <li><button data-go="prologue" class="rail-item active"><span class="rail-no">序章</span><span class="rail-name">海图开启</span></button></li>
+        <li><button data-go="ch1" class="rail-item"><span class="rail-no">第一章</span><span class="rail-name">郑和船队</span></button></li>
+        <li><button data-go="ch2" class="rail-item"><span class="rail-no">第二章</span><span class="rail-name">双十一订单</span></button></li>
+        <li><button data-go="finale" class="rail-item"><span class="rail-no">终章</span><span class="rail-name">古今对照</span></button></li>
+      </ol>
+      <div class="rail-ai">
+        <div id="ai-status" class="ai-status" title="AIGC 状态">研墨中…</div>
+        <label class="switch" id="ai-draw-wrap" hidden>
+          <input type="checkbox" id="ai-draw" />
+          <span>AI 精绘分镜</span>
+        </label>
+      </div>
+    </nav>
+
+    <main class="stage">
+      <!-- 序章 -->
+      <section id="prologue" class="chapter active" aria-labelledby="t-prologue">
+        <header class="ch-head">
+          <h2 id="t-prologue" class="v-title ch-title">序章·海图开启</h2>
+          <div class="ch-intro">
+            <p>点开海图上的任一节点，看见那一处的<b>景</b>、<b>数</b>与<b>批注</b>。拖动可移图，滚轮可缩放。</p>
+            <div class="seg" role="tablist" aria-label="航路">
+              <button class="seg-btn active" data-era="ancient" role="tab" aria-selected="true">古代航路</button>
+              <button class="seg-btn" data-era="modern" role="tab" aria-selected="false">现代航路</button>
+            </div>
+          </div>
+        </header>
+        <div class="map-wrap">
+          <div id="map" class="map" tabindex="0" aria-label="国风航海图"></div>
+          <div class="map-legend" id="map-legend"></div>
+          <div class="map-tools">
+            <button class="btn-icon" id="zoom-in" aria-label="放大">＋</button>
+            <button class="btn-icon" id="zoom-out" aria-label="缩小">－</button>
+            <button class="btn-icon" id="zoom-reset" aria-label="复位">◎</button>
+          </div>
+          <aside id="scene-card" class="scene-card" hidden aria-live="polite"></aside>
+        </div>
+        <div class="question">
+          <span class="q-mark">问</span>
+          <p>双十一零点，订单如潮。仓会不会爆？飞机够不够？包裹为什么还能按时到？——先回到六百年前，看一支更“拥挤”的船队。</p>
+          <button class="btn" data-go="ch1">入第一章 →</button>
+        </div>
+      </section>
+
+      <!-- 第一章 -->
+      <section id="ch1" class="chapter" aria-labelledby="t-ch1">
+        <header class="ch-head">
+          <h2 id="t-ch1" class="v-title ch-title">第一章·郑和船队</h2>
+          <div class="ch-intro"><p>选定航段、货物、天气与航法，AIGC 将为你画出这一回，并推演船队的航期与折损。</p></div>
+        </header>
+        <div class="ch-body">
+          <form id="voyage-form" class="panel-form" onsubmit="return false">
+            <fieldset><legend>航段</legend><div class="chips" data-field="leg"></div></fieldset>
+            <fieldset><legend>贸易货物</legend><div class="chips" data-field="goods"></div></fieldset>
+            <fieldset><legend>天气</legend><div class="chips" data-field="weather"></div></fieldset>
+            <fieldset><legend>航法</legend><div class="chips" data-field="nav"></div></fieldset>
+            <fieldset>
+              <legend>仓储节点</legend>
+              <label class="toggle"><input type="checkbox" name="depot" checked /> <span>途经满剌加官厂，囤货、分䑸、候风</span></label>
+            </fieldset>
+            <button class="btn btn-seal wide" id="btn-voyage">画此一回</button>
+            <div class="kw">
+              <label for="kw-1">或输入关键词，即兴成回</label>
+              <div class="kw-row">
+                <input id="kw-1" maxlength="40" placeholder="如：从泉州到古里 / 双十一爆仓" />
+                <button class="btn" id="btn-kw-1">成回</button>
+              </div>
+            </div>
+          </form>
+          <div class="scroll-strip" id="voyage-strip" aria-live="polite">
+            <p class="empty">卷轴尚空。选好左侧条件，点「画此一回」。</p>
+          </div>
+        </div>
+        <div class="next-row"><button class="btn" data-go="ch2">入第二章：双十一订单 →</button></div>
+      </section>
+
+      <!-- 第二章 -->
+      <section id="ch2" class="chapter" aria-labelledby="t-ch2">
+        <header class="ch-head">
+          <h2 id="t-ch2" class="v-title ch-title">第二章·双十一订单</h2>
+          <div class="ch-intro"><p>零点付尾款，你的“锦囊”从重庆出发。设定策略后下单，再<b>把锦囊拖到下一个节点</b>，看它如何穿过洪峰。</p></div>
+        </header>
+        <div class="ch-body">
+          <form id="order-form" class="panel-form" onsubmit="return false">
+            <fieldset><legend>买什么</legend><div class="chips" data-field="item"></div></fieldset>
+            <fieldset><legend>寄往</legend><div class="chips" data-field="dest"></div></fieldset>
+            <fieldset><legend>干线方式</legend><div class="chips" data-field="mode"></div></fieldset>
+            <fieldset>
+              <legend>调度策略</legend>
+              <label class="toggle"><input type="checkbox" name="forward" checked /> <span>预售期前置仓（货先下沉）</span></label>
+              <label class="toggle"><input type="checkbox" name="extraHub" /> <span>增加仓储/分拨节点</span></label>
+              <label class="range">分拣每件耗时 <output id="out-sort">2</output> 秒
+                <input type="range" name="sortSec" min="1" max="6" step="0.5" value="2" />
+              </label>
+              <label class="range">零点洪峰 ×<output id="out-peak">3</output>
+                <input type="range" name="peak" min="1" max="5" step="0.5" value="3" />
+              </label>
+            </fieldset>
+            <button class="btn btn-seal wide" id="btn-order">付尾款 · 下单</button>
+          </form>
+          <div class="order-stage">
+            <div class="pipeline" id="pipeline" aria-label="物流节点"></div>
+            <p class="drag-hint" id="drag-hint">先在左侧下单。</p>
+            <div class="node-panel" id="node-panel" aria-live="polite"></div>
+            <div class="result" id="order-result" hidden></div>
+          </div>
+        </div>
+        <div class="next-row"><button class="btn" data-go="finale">入终章：古今对照 →</button></div>
+      </section>
+
+      <!-- 终章 -->
+      <section id="finale" class="chapter" aria-labelledby="t-finale">
+        <header class="ch-head">
+          <h2 id="t-finale" class="v-title ch-title">终章·古今对照</h2>
+          <div class="ch-intro"><p>同一张海图，两种调度。五个维度对照之后，为你生成一张“古今航迹对比海报”。</p></div>
+        </header>
+        <div class="compare" id="compare"></div>
+        <div class="finale-row">
+          <div class="chart-card" id="time-chart"></div>
+          <div class="ending" id="ending"></div>
+        </div>
+        <div class="poster-row">
+          <button class="btn btn-seal" id="btn-poster">生成古今航迹对比海报</button>
+          <a class="btn" id="btn-download" hidden download="古今航迹对比海报.png">下载海报</a>
+        </div>
+        <canvas id="poster" class="poster" width="1200" height="1700" hidden></canvas>
+      </section>
+    </main>
+  </div>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

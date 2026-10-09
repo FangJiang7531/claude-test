@@ -1,0 +1,16 @@
+{
+  "name": "haitu-guji",
+  "version": "1.0.0",
+  "description": "海图古今：AIGC 驱动的国风漫画交互叙事 —— 从郑和下西洋到双十一航空物流",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
